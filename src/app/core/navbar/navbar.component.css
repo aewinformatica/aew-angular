@@ -1,0 +1,49 @@
+.navbar {
+  padding: 10px 0; /*espaçamento interno do elemento 10px em cima e 
+em baixo 0 na esquerda e direita*/
+  background-color: #1e94d2; /*cor do fundo*/
+}
+
+.navbar-toggle {
+  /* classe para mudar a cor do link para branco*/
+  color: #fff;
+}
+.navbar-menu {
+  background-color: #3a3633; /*cor de fundo*/
+  position: fixed; /*posicao fixa sem scroll*/
+  top: 0; /*colado do lado cima*/
+  bottom: 0; /*colado do lado baixo*/
+  right: 0; /*colado do lado direito*/
+  width: 210px; /*largura*/
+  margin: 0; /*removendo a margem padrao */
+  z-index: 9998 /*indice do eixo z quanto maior a prioridade fica acima*/;
+  list-style: none; /*removendo o marcador do elemento lista */
+  padding: 0; /*espaçamento interno de 0 nos 4 cantos cola o texto*/
+}
+.navbar-usuario {
+  text-transform: uppercase; /* textp em maiusculo */
+  font-weight: bold; /*espessura da fonte negrito = bold */
+  color: #fff; /*cor de fonte branca*/
+  padding: 15px; /*espaçamento interno de 15px nos 4 cantos*/
+  border-bottom: 1px solid #525151; /*borda inferior solida de um pixel com cor*/
+  margin-bottom: 15px; /*margem inferior de 15px para separar o proximo conteudo da borda*/
+}
+
+.navbar-menuitem {
+  padding: 15px; /*espaçamento interno de 15px nos 4 cantos*/
+}
+.navbar-menuitem a {
+  /*estiizando o link filho do menuitem*/
+
+  color: #c0bbb7; /*cor da fonte */
+  text-decoration: none; /*remove o sublinhado do link*/
+}
+
+.navbar-menuitem a:hover {
+  /*comportamento do link filho do menuitem ao passar o mouse*/
+  color: #fff;
+}
+
+.navbar-menuitem.ativo {
+  background-color: #494541;
+}
