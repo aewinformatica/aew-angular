@@ -4,8 +4,8 @@ import { PessoaCadastroComponent } from "./pessoa-cadastro/pessoa-cadastro.compo
 import { PessoasPesquisaComponent } from "./pessoas-pesquisa/pessoas-pesquisa.component";
 
 const routes: Routes = [
-  { path: "pessoas", component: PessoasPesquisaComponent },
-  { path: "pessoas/novo", component: PessoaCadastroComponent }
+  { path: "", component: PessoasPesquisaComponent },
+  { path: "novo", component: PessoaCadastroComponent }
 ];
 
 @NgModule({
