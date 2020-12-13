@@ -9,6 +9,7 @@ import { Http, RequestOptions } from "@angular/http";
 import { AuthConfig, AuthHttp } from "angular2-jwt";
 import { InterceptHttp } from "./InterceptHttp";
 import { AuthService } from "./auth.service";
+import { AuthGuard } from "./auth.guard";
 
 // export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 //   const config = new AuthConfig({
@@ -42,7 +43,8 @@ export function authHttpServiceFactory(
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
       deps: [AuthService, Http, RequestOptions]
-    }
+    },
+    AuthGuard
   ]
 })
 export class SegurancaModule {}
