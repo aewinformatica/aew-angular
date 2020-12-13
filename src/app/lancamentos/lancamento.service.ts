@@ -6,39 +6,79 @@ import { Lancamento } from "../core/model";
 import * as moment from "moment";
 import { AuthHttp } from "angular2-jwt";
 
+export class LancamentoFiltro {
+  descricao: string;
+  dataVencimentoInicio: Date;
+  dataVencimentoFim: Date;
+  pagina = 0;
+  itensPorPagina = 5;
+}
+
 @Injectable()
 export class LancamentoService {
   lancamentosUrl = "https://aewmoney-api.herokuapp.com/lancamentos";
 
   constructor(private http: AuthHttp) {}
 
-  pesquisar(): Promise<any> {
-    const headers = new Headers();
-    headers.append(
-      "Authorization",
-      "Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=="
-    );
+  pesquisar(filtro: LancamentoFiltro): Promise<any> {
+    const params = new URLSearchParams();
+
+    params.set("page", filtro.pagina.toString());
+    params.set("size", filtro.itensPorPagina.toString());
+
+    if (filtro.descricao) {
+      params.set("descricao", filtro.descricao);
+    }
+
+    if (filtro.dataVencimentoInicio) {
+      params.set(
+        "dataVencimentoDe",
+        moment(filtro.dataVencimentoInicio).format("YYYY-MM-DD")
+      );
+    }
+
+    if (filtro.dataVencimentoFim) {
+      params.set(
+        "dataVencimentoAte",
+        moment(filtro.dataVencimentoFim).format("YYYY-MM-DD")
+      );
+    }
 
     return this.http
-      .get(`${this.lancamentosUrl}?resumo`, { headers })
+      .get(`${this.lancamentosUrl}?resumo`, { search: params })
       .toPromise()
-      .then(response => response.json().content);
+      .then(response => {
+        const responseJson = response.json();
+        const lancamentos = responseJson.content;
+
+        const resultado = {
+          lancamentos,
+          total: responseJson.totalElements
+        };
+
+        return resultado;
+      });
+  }
+
+  excluir(codigo: number): Promise<void> {
+    return this.http
+      .delete(`${this.lancamentosUrl}/${codigo}`)
+      .toPromise()
+      .then(() => null);
+  }
+
+  adicionar(lancamento: Lancamento): Promise<Lancamento> {
+    return this.http
+      .post(this.lancamentosUrl, JSON.stringify(lancamento))
+      .toPromise()
+      .then(response => response.json());
   }
 
   atualizar(lancamento: Lancamento): Promise<Lancamento> {
-    const headers = new Headers();
-
-    headers.append(
-      "Authorization",
-      "Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=="
-    );
-    headers.append("Content-Type", "application/json");
-
     return this.http
       .put(
         `${this.lancamentosUrl}/${lancamento.codigo}`,
-        JSON.stringify(lancamento),
-        { headers }
+        JSON.stringify(lancamento)
       )
       .toPromise()
       .then(response => {
@@ -51,15 +91,8 @@ export class LancamentoService {
   }
 
   buscarPorCodigo(codigo: number): Promise<Lancamento> {
-    const headers = new Headers();
-
-    headers.append(
-      "Authorization",
-      "Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=="
-    );
-
     return this.http
-      .get(`${this.lancamentosUrl}/${codigo}`, { headers })
+      .get(`${this.lancamentosUrl}/${codigo}`)
       .toPromise()
       .then(response => {
         const lancamento = response.json() as Lancamento;
