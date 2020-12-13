@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers } from "@angular/http";
+import { Router } from "@angular/router";
 import { JwtHelper } from "angular2-jwt";
 
 @Injectable()
@@ -7,7 +8,11 @@ export class AuthService {
   oauthTokenUrl = "https://aewmoney-api.herokuapp.com/oauth/token";
   jwtPayload: any;
 
-  constructor(private http: Http, private jwtHelper: JwtHelper) {
+  constructor(
+    private http: Http,
+    private jwtHelper: JwtHelper,
+    router: Router
+  ) {
     this.carregarToken();
   }
 
@@ -46,6 +51,17 @@ export class AuthService {
     return this.jwtPayload && this.jwtPayload.authorities.includes(permissao);
   }
 
+  //verificar se as permissoes batem com a enviada pela API
+  temQualquerPermissao(roles) {
+    for (const role of roles) {
+      if (this.temPermissao(role)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   obterNovoAccessToken(): Promise<void> {
     const headers = new Headers();
     headers.append("Authorization", "Basic YW5ndWxhcjpAbmd1bEByMA==");
@@ -65,7 +81,7 @@ export class AuthService {
       })
       .catch(response => {
         console.error("Erro ao Criar o novo token", response);
-
+        // this.router.navigate['/login']
         Promise.resolve(null);
       });
   }
