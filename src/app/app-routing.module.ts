@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: "pessoas", loadChildren: "app/pessoas/pessoas.module#PessoasModule" },
 
   { path: "nao-autorizado", component: NaoAutorizadoComponent },
-  { path: "", redirectTo: "login", pathMatch: "full" },
+  { path: "", redirectTo: "lancamentos", pathMatch: "full" },
   { path: "pagina-nao-encontrada", component: PaginaNaoEncontradaComponent },
   { path: "**", redirectTo: "pagina-nao-encontrada" }
 ];

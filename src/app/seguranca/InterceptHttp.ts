@@ -11,6 +11,8 @@ import { Observable } from "rxjs/Observable";
 
 import { AuthService } from "./auth.service";
 
+export class NotAuthenticatedError {}
+
 @Injectable()
 export class InterceptHttp extends AuthHttp {
   constructor(
@@ -77,6 +79,10 @@ export class InterceptHttp extends AuthHttp {
       const chamadaNovoAccessToken = this.auth
         .obterNovoAccessToken()
         .then(() => {
+          //mesmo obtendo validar se ainda é valido para poder lancar a Exceçao caso nao seja valido
+          if (this.auth.isAccessTokenInvalido()) {
+            throw new NotAuthenticatedError();
+          }
           return fn().toPromise();
         });
 
