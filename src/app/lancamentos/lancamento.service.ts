@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { Http, Headers } from "@angular/http";
+import { URLSearchParams } from "@angular/http";
 import { Lancamento } from "../core/model";
 
 import * as moment from "moment";
@@ -10,7 +10,7 @@ export class LancamentoFiltro {
   descricao: string;
   dataVencimentoInicio: Date;
   dataVencimentoFim: Date;
-  pagina = 0;
+  pagina = 1;
   itensPorPagina = 5;
 }
 
