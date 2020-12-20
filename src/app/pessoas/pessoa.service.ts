@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers } from "@angular/http";
+import { AuthHttp } from "angular2-jwt";
 
 export class PessoaFiltro {
   nome: string;
@@ -11,28 +12,16 @@ export class PessoaFiltro {
 export class PessoaService {
   pessoasUrl = "https://aewmoney-api.herokuapp.com/pessoas";
 
-  constructor(private http: Http) {}
+  constructor(private http: AuthHttp) {}
 
   listarTodas(): Promise<any> {
-    const headers = new Headers();
-    headers.append(
-      "Authorization",
-      "Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=="
-    );
-
     return this.http
-      .get(this.pessoasUrl, { headers })
+      .get(this.pessoasUrl)
       .toPromise()
       .then(response => response.json().content);
   }
 
   pesquisar(filtro: PessoaFiltro): Promise<any> {
-    const headers = new Headers();
-    headers.append(
-      "Authorization",
-      "Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=="
-    );
-
     const params = new URLSearchParams();
     params.set("page", filtro.pagina.toString());
     params.set("size", filtro.itensPorPagina.toString());
@@ -42,7 +31,7 @@ export class PessoaService {
     }
 
     return this.http
-      .get(this.pessoasUrl, { headers, search: params })
+      .get(this.pessoasUrl, { search: params })
       .toPromise()
       .then(response => {
         const pessoas = response.json().content;
@@ -55,13 +44,8 @@ export class PessoaService {
       });
   }
   excluir(codigo: number): Promise<any> {
-    const headers = new Headers();
-    headers.append(
-      "Authorization",
-      "Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=="
-    );
     return this.http
-      .delete(`${this.pessoasUrl}/${codigo}`, { headers })
+      .delete(`${this.pessoasUrl}/${codigo}`)
       .toPromise()
       .then(() => null);
   }
