@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "@angular/animations": "8",
+    "@angular/cdk": "^8.2.3",
     "@angular/common": "8.2.14",
     "@angular/compiler": "8.2.14",
     "@angular/core": "8.2.14",
@@ -11,6 +13,7 @@
     "@angular/platform-browser": "8.2.14",
     "@angular/platform-browser-dynamic": "8.2.14",
     "@angular/router": "8.2.14",
+    "@auth0/angular-jwt": "^4.2.0",
     "angular-font-awesome": "3.1.2",
     "angular2-jwt": "^0.2.3",
     "chart.js": "^4.4.1",
